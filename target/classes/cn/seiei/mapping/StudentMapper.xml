@@ -10,7 +10,10 @@
   <select id="getAll" resultMap="BaseResultMap">
   	select * from studentmsg
   </select>
-  <insert id="insert" parameterType="cn.seiei.bean.Student">
+  <select id="getMsgBySex" parameterType="String" resultMap="BaseResultMap">
+  	select * from studentmsg where sex = #{sex}
+  </select>
+  <insert id="insert" parameterType="cn.seiei.bean.Student" useGeneratedKeys="true" keyProperty="id">
     insert into studentmsg (id, name, age, 
       sex)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, 

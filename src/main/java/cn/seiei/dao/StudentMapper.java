@@ -10,4 +10,6 @@ public interface StudentMapper {
     int insertSelective(Student record);
     
     List<Student> getAll();
+    
+    List<Student> getMsgBySex(String sex);
 }
