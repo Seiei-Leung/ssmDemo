@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!-- 配置数据源 -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="${dataSource.driver}" />
+		<property name="url" value="${dataSource.url}" />
+		<property name="username" value="${dataSource.username}" />
+		<property name="password" value="${dataSource.password}" />
+		<!-- 初始化连接大小 -->
+		<property name="initialSize" value="${dataSource.initialSize}"></property>
+		<!-- 连接池最大数量 -->
+		<property name="maxActive" value="${dataSource.maxActive}"></property>
+		<!-- 连接池最大空闲 -->
+		<property name="maxIdle" value="${dataSource.maxIdle}"></property>
+		<!-- 连接池最小空闲 -->
+		<property name="minIdle" value="${dataSource.minIdle}"></property>
+		<!-- 获取连接最大等待时间 -->
+		<property name="maxWait" value="${dataSource.maxWait}"></property>
+	</bean>
+
+	<!-- spring和MyBatis整合，spring 生成SqlSessionFactory，并结合下面一条bean扫描dao，从而自动获取了dao接口的实现类 -->
+	<bean id="sqlSessionFactory"
+		class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<!-- 自动扫描mapping.xml文件 -->
+		<property name="mapperLocations"
+			value="classpath:cn/seiei/mapping/*.xml"></property>
+    	<!-- 扫描java bean，自动使用别名 -->
+    	<property name="typeAliasesPackage" value="cn.seiei.bean"/>
+	</bean>
+
+	<!-- 扫描dao -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="cn.seiei.dao" />
+		<property name="sqlSessionFactoryBeanName"
+			value="sqlSessionFactory"></property>
+	</bean>
+	
+</beans>
