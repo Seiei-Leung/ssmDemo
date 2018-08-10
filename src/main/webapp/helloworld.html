@@ -1,36 +1,83 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<script src="https://code.jquery.com/jquery-2.2.4.js"></script>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+    <script src="https://code.jquery.com/jquery-2.2.4.js"></script>
+    <style type="text/css">
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    .top30 {
+        margin-top: 30px;
+        margin-left: 30px;
+    }
+
+    .fileWrapper {
+        position: relative;
+        display: inline-block;
+        width: 70px;
+        height: 30px;
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .fileWrapper p {
+        line-height: 30px;
+    }
+
+    .pictureFile {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: transparent;
+        filter: alpha(opacity=0);
+        -moz-opacity: 0;
+        -khtml-opacity: 0;
+        opacity: 0;
+    }
+    </style>
 </head>
+
 <body>
-	<h1>Hello.world!</h1>
-	<button id="addnonobtn">
-		添加名字为nono的
-	</button>
-	<form action="http://localhost:8080/ssmDemo/file/upload" method="post" enctype="multipart/form-data">
-		上传图片：<input type="file" name="pictureFile">
-		<input type="submit">
-	</form>
+    <h1>Hello.world!</h1>
+    <div class="top30">
+        <button id="addnonobtn">
+            添加名字为nono的
+        </button>
+    </div>
+    <div class="top30">
+        <form action="http://localhost:8080/ssmDemo/file/upload" method="post" enctype="multipart/form-data">
+            <div class="fileWrapper">
+                <p>上传图片</p>
+                <input type="file" name="pictureFile" class="pictureFile">
+            </div>
+            <input type="submit">
+        </form>
+    </div>
 </body>
 <script>
 $("#addnonobtn").click(function() {
-	var data = {
-		"name": "nono啊",
-		"sex": "girl",
-		"age": 17
-	}
-	var obj = {};
-	obj.type = "POST";
-	obj.data = JSON.stringify(data);
-	obj.contentType = "application/json";
-	obj.success = function(response) {
-		console.log(response);
-	};
-	obj.url = "http://localhost:8080/ssmDemo/insertmsg";
-	$.ajax(obj);
+    var data = {
+        "name": "nono啊",
+        "sex": "girl",
+        "age": 17
+    }
+    var obj = {};
+    obj.type = "POST";
+    obj.data = JSON.stringify(data);
+    obj.contentType = "application/json";
+    obj.success = function(response) {
+        console.log(response);
+    };
+    obj.url = "http://localhost:8080/ssmDemo/insertmsg";
+    $.ajax(obj);
 })
 </script>
+
 </html>

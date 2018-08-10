@@ -72,6 +72,7 @@ public class TestController {
 		if (pictureFile != null) {
 			String ext = FilenameUtils.getExtension(pictureFile.getOriginalFilename());
 			pictureFile.transferTo(new File("F:\\115\\"+name + "." + ext));
+			System.out.println(pictureFile.getOriginalFilename());
 			System.out.println(ext);
 		}
 		return "helloworld";
