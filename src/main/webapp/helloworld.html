@@ -60,6 +60,10 @@
             <input type="submit">
         </form>
     </div>
+    <div class="top30">
+        <input type="file" name="pictureFile2" id="pictureFile2" multiple>
+        <button class="submitBtn">提交</button>
+    </div>
 </body>
 <script>
 $("#addnonobtn").click(function() {
@@ -77,6 +81,27 @@ $("#addnonobtn").click(function() {
     };
     obj.url = "http://localhost:8080/ssmDemo/insertmsg";
     $.ajax(obj);
+})
+
+// https://www.cnblogs.com/kanyun/p/7159232.html
+$(".submitBtn").click(function() {
+    var files = document.getElementById("pictureFile2").files;
+    console.log(files);
+    var formdata = new FormData();
+    for (var i=0; i<files.length; i++) {
+    	formdata.append("pictureFile", files[i]); // 这里的命名要与 java controller 中的 @RequestParam 一致
+    }
+    
+    $.ajax({
+    	url: "http://localhost:8080/ssmDemo/file/upload",
+    	type: "POST",
+    	processData: false, // 告诉jQuery不要去处理发送的数据
+		contentType: false, // 告诉jQuery不要去设置Content-Type请求头
+		data: formdata,
+		success: function() {
+			console.log("success")
+		}
+    });
 })
 </script>
 
