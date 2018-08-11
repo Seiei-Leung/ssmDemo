@@ -51,7 +51,9 @@
             添加名字为nono的
         </button>
     </div>
+    <!-- 使用 form 标签上传文件 -->
     <div class="top30">
+        <!-- 必须声明 multipart/form-data -->
         <form action="http://localhost:8080/ssmDemo/file/upload" method="post" enctype="multipart/form-data">
             <div class="fileWrapper">
                 <p>上传图片</p>
@@ -60,9 +62,15 @@
             <input type="submit">
         </form>
     </div>
+    <!-- jquery 使用 H5 formdata 上传文件 -->
     <div class="top30">
-        <input type="file" name="pictureFile2" id="pictureFile2" multiple>
+        <input type="file" id="pictureFile2" multiple>
         <button class="submitBtn">提交</button>
+    </div>
+    <!-- 原生js 使用 H5 formdata 上传文件 -->
+    <div class="top30">
+        <input type="file" id="pictureFile3" multiple>
+        <button id="submitBtn2">提交</button>
     </div>
 </body>
 <script>
@@ -83,26 +91,50 @@ $("#addnonobtn").click(function() {
     $.ajax(obj);
 })
 
+// jquery 使用 H5 formdata
 // https://www.cnblogs.com/kanyun/p/7159232.html
 $(".submitBtn").click(function() {
     var files = document.getElementById("pictureFile2").files;
     console.log(files);
     var formdata = new FormData();
-    for (var i=0; i<files.length; i++) {
-    	formdata.append("pictureFile", files[i]); // 这里的命名要与 java controller 中的 @RequestParam 一致
+    for (var i = 0; i < files.length; i++) {
+        formdata.append("pictureFile", files[i]); // 这里的命名要与 java controller 中的 @RequestParam 一致
     }
-    
+
     $.ajax({
-    	url: "http://localhost:8080/ssmDemo/file/upload",
-    	type: "POST",
-    	processData: false, // 告诉jQuery不要去处理发送的数据
-		contentType: false, // 告诉jQuery不要去设置Content-Type请求头
-		data: formdata,
-		success: function() {
-			console.log("success")
-		}
+        url: "http://localhost:8080/ssmDemo/file/upload2",
+        type: "POST",
+        processData: false, // 告诉jQuery不要去处理发送的数据
+        contentType: false, // 告诉jQuery不要去设置Content-Type请求头
+        data: formdata,
+        success: function() {
+            console.log("success")
+        }
     });
 })
+
+document.getElementById("submitBtn2").onclick = function() {
+    var files = document.getElementById("pictureFile3").files;
+    var formdata = new FormData();
+    for (var i = 0; i < files.length; i++) {
+        formdata.append("pictureFile", files[i]); // 这里的命名要与 java controller 中的 @RequestParam 一致
+    }
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                console.log("success");
+            } else {
+                console.log("fail")
+            }
+        } else {
+            // HTTP请求还在继续...
+        }
+    }
+
+    xhr.open("POST", "http://localhost:8080/ssmDemo/file/upload2");
+    xhr.send(formdata);
+}
 </script>
 
 </html>

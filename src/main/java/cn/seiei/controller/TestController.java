@@ -89,7 +89,6 @@ public class TestController {
 				String name = UUID.randomUUID().toString().replaceAll("-", "");
 	            String fileName = file.getOriginalFilename(); //获取文件名
 	            file.transferTo(new File("F:\\115\\"+name + "." + fileName));
-	            
 	        }
 			return "helloworld";
 		}
