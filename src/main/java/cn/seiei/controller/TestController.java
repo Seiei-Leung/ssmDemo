@@ -24,27 +24,28 @@ import cn.seiei.service.StudentService;
 
 @Controller
 public class TestController {
+
 	@Resource
 	private StudentService studentService;
-	
+
 	@RequestMapping("/getall")
 	@ResponseBody
 	public JSONArray getall() {
 		JSONArray jsonArray = studentService.getAll();
 		return jsonArray;
 	}
-	
+
 	@RequestMapping("/getall2")
 	@ResponseBody
 	public List<Student> getall2() {
 		return studentService.getAll2();
 	}
-	
+
 	@RequestMapping("/index")
 	public String index() {
 		return "helloworld";
 	}
-	
+
 	// GET 方法
 	@RequestMapping("/getmsgbysex")
 	@ResponseBody
@@ -54,42 +55,43 @@ public class TestController {
 		List<Student> students = studentService.getMsgBySex(sex);
 		return students;
 	}
-	
+
 	// POST 方法
-	@RequestMapping(value="/insertmsg", method=RequestMethod.POST)
+	@RequestMapping(value = "/insertmsg", method = RequestMethod.POST)
 	@ResponseBody
 	public int insertMsg(@RequestBody Student student) {
 		int result = studentService.insertMsg(student);
 		return result;
 	}
-	
+
 	// 上传图片
-		@RequestMapping(value="/file/upload", method=RequestMethod.POST)
-		public String upload(HttpServletRequest request,@RequestParam("pictureFile") MultipartFile pictureFile) throws IllegalStateException, IOException {
-			//使用UUID给图片重命名，并去掉四个“-”
+	@RequestMapping(value = "/file/upload", method = RequestMethod.POST)
+	public String upload(HttpServletRequest request, @RequestParam("pictureFile") MultipartFile pictureFile)
+			throws IllegalStateException, IOException {
+		// 使用UUID给图片重命名，并去掉四个“-”
+		String name = UUID.randomUUID().toString().replaceAll("-", "");
+		// 获取文件的扩展名
+		if (pictureFile != null) {
+			String ext = FilenameUtils.getExtension(pictureFile.getOriginalFilename());
+			pictureFile.transferTo(new File("F:\\115\\" + name + "." + ext));
+			System.out.println(pictureFile.getOriginalFilename());
+			System.out.println(ext);
+		}
+		return "helloworld";
+	}
+
+	// 使用Html5 FormData实现多文件上传
+	@RequestMapping(value = "/file/upload2", method = RequestMethod.POST)
+	public String upload2(HttpServletRequest request, @RequestParam("pictureFile") List<MultipartFile> pictureFiles)
+			throws IllegalStateException, IOException {
+
+		// 获取文件的扩展名
+		for (MultipartFile file : pictureFiles) {
+			// 使用UUID给图片重命名，并去掉四个“-”
 			String name = UUID.randomUUID().toString().replaceAll("-", "");
-			//获取文件的扩展名
-			if (pictureFile != null) {
-				String ext = FilenameUtils.getExtension(pictureFile.getOriginalFilename());
-				pictureFile.transferTo(new File("F:\\115\\"+name + "." + ext));
-				System.out.println(pictureFile.getOriginalFilename());
-				System.out.println(ext);
-			}
-			return "helloworld";
+			String fileName = file.getOriginalFilename(); // 获取文件名
+			file.transferTo(new File("F:\\115\\" + name + "." + fileName));
 		}
-		
-		
-		// 使用Html5 FormData实现多文件上传
-		@RequestMapping(value="/file/upload2", method=RequestMethod.POST)
-		public String upload2(HttpServletRequest request,@RequestParam("pictureFile") List<MultipartFile> pictureFiles) throws IllegalStateException, IOException {
-			
-			//获取文件的扩展名
-			for (MultipartFile file:pictureFiles) {
-				//使用UUID给图片重命名，并去掉四个“-”
-				String name = UUID.randomUUID().toString().replaceAll("-", "");
-	            String fileName = file.getOriginalFilename(); //获取文件名
-	            file.transferTo(new File("F:\\115\\"+name + "." + fileName));
-	        }
-			return "helloworld";
-		}
+		return "helloworld";
+	}
 }

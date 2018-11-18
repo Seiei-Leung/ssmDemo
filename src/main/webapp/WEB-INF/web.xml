@@ -6,7 +6,7 @@
 	<!-- 根配置文件 -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>classpath:spring/root-context.xml</param-value>
+		<param-value>classpath:spring/applicationContext.xml</param-value>
 	</context-param>
 
 	<!-- 防止Spring内存溢出监听器，应该配置在web.xml中与Spring相关监听器中的第一个位置 -->
@@ -89,7 +89,7 @@
 		<!-- springmvc 配置文件，基本就是扫描 @controller -->
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>classpath:spring/applicationContext.xml</param-value>
+			<param-value>classpath:spring/dispatcher-serlvet.xml</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 		<async-supported>true</async-supported>
