@@ -6,6 +6,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -55,5 +56,22 @@ public class StudentService {
 		} else {
 			return 0;
 		}
+	}
+	
+	// 默认配置下，spring只有在抛出的异常为运行时unchecked异常时才回滚该事务，也就是抛出的异常为RuntimeException的子类(Errors也会导致事务回滚)，而抛出checked异常则不会导致事务回滚。
+	// 以下的异常不是 RuntimeException
+	@Transactional(rollbackFor=Exception.class)
+	public void insertForTransactionalTEST() throws Exception {
+		Student student = new Student();
+		student.setAge(19);
+		student.setName("Maga");
+		student.setSex("girl");
+		studentMapper.insert(student);
+		errorForTransactionalTEST();
+	}
+	
+	@Transactional
+	public void errorForTransactionalTEST() throws Exception {
+		throw new Exception("炸裂！！！");
 	}
 }

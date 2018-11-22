@@ -46,6 +46,17 @@ public class TestController {
 		return "helloworld";
 	}
 
+	@RequestMapping("/testForTransactionalTEST")
+	@ResponseBody
+	public void testForTransactionalTEST() {
+		try {
+			studentService.insertForTransactionalTEST();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 	// GET 方法
 	@RequestMapping("/getmsgbysex")
 	@ResponseBody
