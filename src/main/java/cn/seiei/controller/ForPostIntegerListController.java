@@ -34,6 +34,7 @@ public class ForPostIntegerListController {
 	/**
 	 * 前端请求头 contentType: 'application/json'，后端接受要标注 @RequestBody 后端直接使用
 	 * List<Integer> List 作为接受参数接受
+	 * 注意此时前端传递的数据仅仅是一个数组，并无需与后端的接受参数的名称对应形成一个对象
 	 * 
 	 * @param list
 	 * @return
