@@ -1,0 +1,90 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+
+    <title>socketjs</title>
+</head>
+<body>
+发送者：<input id="fromUserId" value="2">
+接收者：<input id="toUserId" value="3">
+<button type="button" onclick="openClick();">打开</button>
+<button type="button" onclick="closeClick();">关闭</button><br/>
+<input id="message" value="---"/>
+<button type="button" onclick="sendClick();">发送</button>
+<div id="content"></div>
+<script>
+    var socket;
+    var t;
+    function openClick() {
+        connection();
+    }
+    function closeClick() {
+        if (socket) {
+            socket.close();
+        }
+    }
+    function sendClick() {
+        var fromUserId = document.getElementById("fromUserId").value;
+        var toUserId = document.getElementById("toUserId").value;
+        var content = document.getElementById("message").value;
+        var obj = {
+            "fromUserId":fromUserId,
+            "toUserId":toUserId,
+            "content":content
+        };
+        document.getElementById("content").innerHTML = document.getElementById("content").innerHTML + '<br/>' + fromUserId + "说：" + content;
+        socket.send(JSON.stringify(obj));
+        console.log(fromUserId + "说：" + JSON.stringify(content));
+    }
+
+    var connection = function() {
+        console.log("connection()");
+        var fromUserId = document.getElementById("fromUserId");
+        var toUserId = document.getElementById("toUserId");
+        var url = 'ws://' + window.location.host + '/websocket/commodity/{' + fromUserId.value + '}/{' + toUserId.value + '}';
+        socket = new WebSocket(url);
+        socket.onopen = onopen;
+        socket.onmessage = onmessage;
+        socket.onclose = onclose;
+        socket.onerror = onerror;
+    }
+    //重连
+    var reconnection = function() {
+        //与服务器已经建立连接
+        if (socket && socket.readyState == 1) {
+            clearTimeout(t);
+        } else {
+            //已经关闭了与服务器的连接
+            if (socket.readyState == 3) {
+                connection();
+            }
+            //0正尝试与服务器建立连接,2正在关闭与服务器的连接
+            t = setTimeout(function() {
+                reconnection();
+            }, 1000);
+        }
+    }
+    var onopen = function() {
+        console.log("onopen()");
+    }
+    var onclose = function() {
+        console.log("onclose()");
+        reconnection();
+    }
+    var onmessage = function(e) {
+        console.log("onmessage()");
+        if (e.data === "") return;
+        var toUserId = document.getElementById("toUserId").value;
+        document.getElementById("content").innerHTML = document.getElementById("content").innerHTML + '<br/>' + toUserId + "说：" + e.data;
+        console.log(toUserId + "说：" + e.data);
+    }
+    var onerror = function() {
+        console.log("error...");
+        reconnection();
+    }
+
+
+</script>
+</body>
+</html>
