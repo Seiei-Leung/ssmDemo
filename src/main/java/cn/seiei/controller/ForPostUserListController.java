@@ -28,7 +28,7 @@ public class ForPostUserListController {
 	 * @param list
 	 * @return
 	 */
-	@RequestMapping(value = "/testForPostListAndForApplication_json", method = RequestMethod.POST)
+	@RequestMapping(value = "testForPostListAndForApplication_json", method = RequestMethod.POST)
 	@ResponseBody
 	public int testForPostList(@RequestBody List<Uservo> list) {
 		System.out.println(list.size());

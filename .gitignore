@@ -1,15 +1,33 @@
 *.class
 
-# Package Files #
-*.jar
+# package file
 *.war
 *.ear
 
-# ignore Maven generated target folders
-target
+#maven 文件
+target/
 
-# ignore eclipse files
+# eclipse 文件
+.settings/
 .project
 .classpath
-.settings
-.metadata
+
+# idea 文件
+.idea/
+/idea/
+*.ipr
+*.iml
+*.iws
+
+# temp 文件（缓存文件）
+
+*.log
+*.cache
+*.diff
+*.patch
+*.tmp
+
+# system ignore
+
+.DS_Store
+.Thumbs.db
