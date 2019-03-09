@@ -42,7 +42,7 @@
         console.log("connection()");
         var fromUserId = document.getElementById("fromUserId");
         var toUserId = document.getElementById("toUserId");
-        var url = 'ws://' + window.location.host + '/websocket/commodity/{' + fromUserId.value + '}/{' + toUserId.value + '}';
+        var url = 'ws://' + window.location.host + '/websocket/commodity/{' + fromUserId.value + '}/{' + toUserId.value + '}?name=123';
         socket = new WebSocket(url);
         socket.onopen = onopen;
         socket.onmessage = onmessage;

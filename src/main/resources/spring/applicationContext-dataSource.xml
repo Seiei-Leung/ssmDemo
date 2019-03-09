@@ -35,7 +35,7 @@
 		<property name="dataSource" ref="dataSource" />
 		<!-- 自动扫描mapping.xml文件 -->
 		<property name="mapperLocations"
-			value="classpath:cn/seiei/mapping/*.xml"></property>
+			value="classpath:mapper/*Mapper.xml"></property>
     	<!-- 扫描java bean，自动使用别名 -->
     	<property name="typeAliasesPackage" value="cn.seiei.bean"/>
 	</bean>
