@@ -1,10 +1,7 @@
 package cn.seiei.controller;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -20,7 +17,8 @@ public class ForPostSigninController {
 
     @RequestMapping(value = "/testForJsonData", method = RequestMethod.POST)
     @ResponseBody
-    public int testForJsonData(@RequestBody String name, @RequestBody String pw) {
+    public int testForJsonData(String name, String pw) {
+        System.out.println("testForJsonData");
         System.out.println(name);
         System.out.println(pw);
         return 1;
@@ -29,9 +27,18 @@ public class ForPostSigninController {
     @RequestMapping(value = "/testForObj", method = RequestMethod.POST)
     @ResponseBody
     public int testForObj(@RequestBody Map<String, String> params) {
-        System.out.println(params.get("name"));
-        System.out.println(params.get("pw"));
-        return 1;
+        System.out.println("testForObj");
+        System.out.println("name:" + params.get("name"));
+        System.out.println("pw:" + params.get("pw"));
+        return 2;
     }
 
+
+    @RequestMapping(value = "/testForObj2", method = RequestMethod.POST)
+    @ResponseBody
+    public int testForObj2(@RequestBody String params) {
+        System.out.println("testForObj2");
+        System.out.println(params);
+        return 3;
+    }
 }

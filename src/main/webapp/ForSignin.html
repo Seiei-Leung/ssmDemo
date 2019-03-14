@@ -6,11 +6,22 @@
     <script src="https://unpkg.com/axios@0.18.0/dist/axios.min.js"></script>
     <script>
         var data = {
-            code: "admin",
+            name: "admin",
             pw: "12345678900"
         };
-        axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
-        axios.post("http://localhost:8080/testForJsonData", jsondata).then(function(res) {
+        // axios 会自动转为 Content-Type:application/x-www-form-urlencoded
+        axios.post("http://localhost:8080/testForJsonData", "name=admin&pw=12345678900").then(function(res) {
+            console.log(res);
+        }).catch(function(err) {
+            console.log(err);
+        });
+
+        axios.post("http://localhost:8080/testForObj", data).then(function(res) {
+            console.log(res);
+        }).catch(function(err) {
+            console.log(err);
+        });
+        axios.post("http://localhost:8080/testForObj2", data).then(function(res) {
             console.log(res);
         }).catch(function(err) {
             console.log(err);
