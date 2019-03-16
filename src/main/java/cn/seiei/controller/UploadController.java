@@ -30,7 +30,7 @@ public class UploadController {
 			System.out.println(pictureFile.getOriginalFilename());
 			System.out.println(ext);
 		}
-		return "helloworld";
+		return "common";
 	}
 
 	// 使用Html5 FormData实现多文件上传
@@ -38,6 +38,7 @@ public class UploadController {
 	public String upload2(HttpServletRequest request, @RequestParam("pictureFile") List<MultipartFile> pictureFiles)
 			throws IllegalStateException, IOException {
 
+		System.out.println("123");
 		// 获取文件的扩展名
 		for (MultipartFile file : pictureFiles) {
 			// 使用UUID给图片重命名，并去掉四个“-”
@@ -45,6 +46,6 @@ public class UploadController {
 			String fileName = file.getOriginalFilename(); // 获取文件名
 			file.transferTo(new File("F:\\115\\" + name + "." + fileName));
 		}
-		return "helloworld";
+		return "common";
 	}
 }

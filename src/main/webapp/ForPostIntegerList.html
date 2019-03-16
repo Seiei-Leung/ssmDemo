@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-2.2.4.js"></script>
+    <style type="text/css">
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    .top30 {
+        margin-top: 30px;
+        margin-left: 30px;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="top30">
+        <button id="submitBtn3">请求头是“application/json”的POST 数字数组类型测试1</button>
+    </div>
+    <div class="top30">
+        <button id="submitBtn4">请求头是“application/json”的POST 数字数组类型测试2</button>
+    </div>
+    <div class="top30">
+        <button id="submitBtn5">请求头是“application/x-www-form-urlencoded”的POST 数字数组类型测试1</button>
+    </div>
+    <div class="top30">
+        <button id="submitBtn6">请求头是“application/x-www-form-urlencoded”的POST 数字数组类型测试2</button>
+    </div>
+    <div class="top30">
+        <button id="submitBtn7">请求头是“application/x-www-form-urlencoded”的POST 数字数组类型测试3</button>
+    </div>
+    <div class="top30">
+        <button id="submitBtn8">请求头是“application/json”的POST 自定义对象数组类型测试1</button>
+    </div>
+    <div class="top30">
+        <button id="submitBtn9">请求头是“application/x-www-form-urlencoded”的POST 自定义对象数组类型测试1</button>
+    </div>
+</body>
+<script>
+//'application/json'
+//后端参数 @RequestBody List<Integer>
+$("#submitBtn3").click(function() {
+    var formdata = [1, 2, 3];
+    $.ajax({
+        url: "http://localhost:8080/testForPostListAndForApplication_json",
+        type: "POST",
+        contentType: 'application/json',
+        data: JSON.stringify(formdata),
+        success: function() {
+            console.log("success")
+        }
+    });
+});
+
+// 'application/json'
+// 后端参数 @RequestBody ForJsonPostListVo forJsonPostListVo，即是将数组封装成一个对象，将数组赋值到这个对象的属性中，属性名要与传入数据中数组对应的键名一致
+$("#submitBtn4").click(function() {
+    var formdata = { list: [1, 2, 3] };
+    $.ajax({
+        url: "http://localhost:8080/testForPostListAndForApplication_json2",
+        type: "POST",
+        contentType: 'application/json',
+        data: JSON.stringify(formdata),
+        success: function() {
+            console.log("success")
+        }
+    });
+});
+
+// 'application/x-www-form-urlencoded'
+// 后端参数声明使用 @RequestParam("list[]") ArrayList<Integer> list，此时前端使用 {"list[]": [1,2,3]} 作为传递数据也可以，但不能传递空数组
+$("#submitBtn5").click(function() {
+    var formdata = { "list": [1, 2, 3] };
+    $.ajax({
+        url: "http://localhost:8080/testForPostListAndForX_www_form_urlencoded",
+        type: "POST",
+        contentType: 'application/x-www-form-urlencoded',
+        data: formdata,
+        success: function() {
+            console.log("success")
+        }
+    });
+});
+
+//'application/x-www-form-urlencoded'
+// 前端数组使用 join 转化为字符串，后端使用 @RequestParam("list") ArrayList<Integer> list 作为接受参数
+$("#submitBtn6").click(function() {
+    var formdata = [1, 2, 3];
+    $.ajax({
+        url: "http://localhost:8080/testForPostListAndForX_www_form_urlencoded2",
+        type: "POST",
+        contentType: 'application/x-www-form-urlencoded',
+        data: { "list": formdata.join() },
+        success: function() {
+            console.log("success")
+        }
+    });
+});
+
+//'application/x-www-form-urlencoded'
+//前端数组使用 join 转化为字符串，后端使用 ForJsonPostListVo forJsonPostListVo作为接受参数
+$("#submitBtn7").click(function() {
+    var formdata = [1, 2, 3];
+    $.ajax({
+        url: "http://localhost:8080/testForPostListAndForX_www_form_urlencoded3",
+        type: "POST",
+        contentType: 'application/x-www-form-urlencoded',
+        data: { "list": formdata.join() },
+        success: function() {
+            console.log("success")
+        }
+    });
+});
+
+
+//'application/json'
+//后端参数 @RequestBody List<Usrvo>
+$("#submitBtn8").click(function() {
+    var user = { name: "Seiei" };
+    var formdata = [user];
+    $.ajax({
+        url: "http://localhost:8080/PostUservo/testForPostListAndForApplication_json",
+        type: "POST",
+        contentType: 'application/json',
+        data: JSON.stringify(formdata),
+        success: function() {
+            console.log("success")
+        }
+    });
+});
+
+// 'application/x-www-form-urlencoded'
+// 后端参数声明使用 @RequestParam("list[]") ArrayList<User> list，此时前端使用 {"list[]": [1,2,3]} 作为传递数据也可以，但不能传递空数组
+$("#submitBtn9").click(function() {
+    var user = { name: "Seiei" };
+    var formdata = { "list": [user] };
+    $.ajax({
+        url: "http://localhost:8080/PostUservo/testForPostListAndForX_www_form_urlencoded",
+        type: "POST",
+        contentType: 'application/x-www-form-urlencoded',
+        data: formdata,
+        success: function() {
+            console.log("success")
+        }
+    });
+});
+</script>
+
+</html>

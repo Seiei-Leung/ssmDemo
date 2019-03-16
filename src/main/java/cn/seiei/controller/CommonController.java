@@ -51,7 +51,7 @@ public class CommonController {
 	 */
 	@RequestMapping("/index")
 	public String index() {
-		return "helloworld";
+		return "common";
 	}
 
 	/**
